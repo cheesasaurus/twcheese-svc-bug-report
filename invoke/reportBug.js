@@ -1,7 +1,16 @@
 const BugTracker = require('../src/BugTracker');
 
 
-(async function() {
-    let data = await BugTracker.createIssue('test title', 'test message');
-    console.log(data);
-})();
+exports.handler = async (event) => {
+    let input = JSON.parse(event.body);
+    let output = await BugTracker.createIssue(input.title, input.message);
+
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify(output),
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    };
+    return response;
+};
