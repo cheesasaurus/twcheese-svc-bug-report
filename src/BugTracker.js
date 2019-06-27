@@ -17,6 +17,9 @@ let BugTracker = {
                 body: message
             })            
         });
+        if (response.statusCode !== 201) {
+            throw new Error(`Failed to create issue. Github responded with ${response.statusCode}`);
+        }
         let obj = await response.json();
         return { url: obj.html_url };
     }
